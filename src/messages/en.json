@@ -280,7 +280,21 @@
     "confirmEmailTitle": "Check your email",
     "confirmEmailDesc": "We sent a confirmation link to your inbox — click it to activate your account, then sign in.",
     "noAccount": "Don't have an account? <link>Create one</link>",
-    "haveAccount": "Already have an account? <link>Sign in</link>"
+    "haveAccount": "Already have an account? <link>Sign in</link>",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "forgotPassword": "Forgot password?",
+    "forgotPasswordTitle": "Reset your password",
+    "forgotPasswordSubtitle": "Enter your email and we'll send you a link to reset it.",
+    "sendResetLink": "Send reset link",
+    "resetEmailSentTitle": "Check your email",
+    "resetEmailSentDesc": "If an account exists for that email, we've sent a link to reset your password.",
+    "resetPasswordTitle": "Set a new password",
+    "resetPasswordSubtitle": "Choose a new password for your account.",
+    "newPassword": "New password",
+    "updatePassword": "Update password",
+    "passwordUpdatedTitle": "Password updated",
+    "passwordUpdatedDesc": "Redirecting you to your account…"
   },
   "account": {
     "title": "Account",

@@ -280,7 +280,21 @@
     "confirmEmailTitle": "تحقق من إيميلك",
     "confirmEmailDesc": "أرسلنا رابط تأكيد لصندوق بريدك — اضغط عليه لتفعيل حسابك، وبعدها سجّل دخولك.",
     "noAccount": "ما عندك حساب؟ <link>أنشئ وحدة</link>",
-    "haveAccount": "عندك حساب أصلًا؟ <link>سجّل دخولك</link>"
+    "haveAccount": "عندك حساب أصلًا؟ <link>سجّل دخولك</link>",
+    "showPassword": "أظهر كلمة المرور",
+    "hidePassword": "أخفِ كلمة المرور",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "forgotPasswordTitle": "إعادة تعيين كلمة المرور",
+    "forgotPasswordSubtitle": "أدخل إيميلك وبنرسلّك رابط لإعادة تعيينها.",
+    "sendResetLink": "أرسل رابط إعادة التعيين",
+    "resetEmailSentTitle": "تحقق من إيميلك",
+    "resetEmailSentDesc": "إذا في حساب مرتبط بهاد الإيميل، وصلّك رابط لإعادة تعيين كلمة المرور.",
+    "resetPasswordTitle": "حدّد كلمة مرور جديدة",
+    "resetPasswordSubtitle": "اختار كلمة مرور جديدة لحسابك.",
+    "newPassword": "كلمة المرور الجديدة",
+    "updatePassword": "تحديث كلمة المرور",
+    "passwordUpdatedTitle": "تم تحديث كلمة المرور",
+    "passwordUpdatedDesc": "عم نحوّلك لحسابك…"
   },
   "account": {
     "title": "حسابي",

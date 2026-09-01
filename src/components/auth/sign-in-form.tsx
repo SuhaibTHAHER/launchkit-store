@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Loader2 } from "lucide-react";
 import { signInAction, type AuthState } from "@/lib/actions/auth";
+import { PasswordInput } from "@/components/auth/password-input";
 
 export function SignInForm({ next }: { next?: string }) {
   const t = useTranslations("auth");
@@ -32,18 +33,13 @@ export function SignInForm({ next }: { next?: string }) {
         />
       </label>
 
-      <label className="block">
-        <span className="mb-1.5 block text-sm font-medium text-foreground">
-          {t("password")}
-        </span>
-        <input
-          name="password"
-          type="password"
-          required
-          autoComplete="current-password"
-          className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-        />
-      </label>
+      <PasswordInput
+        name="password"
+        label={t("password")}
+        required
+        autoComplete="current-password"
+        forgotPasswordHref="/forgot-password"
+      />
 
       {state?.error && <p className="text-sm text-negative">{state.error}</p>}
 
