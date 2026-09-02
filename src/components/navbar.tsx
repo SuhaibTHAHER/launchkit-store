@@ -18,7 +18,7 @@ export async function Navbar() {
     ? (
         await supabase
           .from("launchkit_profiles")
-          .select("full_name")
+          .select("full_name, is_admin")
           .eq("id", user.id)
           .single()
       ).data
@@ -29,6 +29,7 @@ export async function Navbar() {
     { href: "/blog", label: t("blog") },
     { href: "/docs", label: t("docs") },
     { href: "/about", label: t("about") },
+    ...(profile?.is_admin ? [{ href: "/admin", label: t("admin") }] : []),
   ];
 
   const authHref = user ? "/account" : "/login";
