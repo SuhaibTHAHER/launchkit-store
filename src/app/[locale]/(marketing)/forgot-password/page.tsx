@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/container";
 import { ForgotPasswordForm } from "@/components/auth/forgot-password-form";
+import { noIndex } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -10,7 +11,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "auth" });
-  return { title: t("forgotPasswordTitle") };
+  return { title: t("forgotPasswordTitle"), robots: noIndex };
 }
 
 export default async function ForgotPasswordPage() {

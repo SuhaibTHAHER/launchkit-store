@@ -3,6 +3,7 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { getOrders } from "@/lib/commerce";
 import type { Locale } from "@/i18n/routing";
+import { noIndex } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -11,7 +12,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "ordersPage" });
-  return { title: t("title") };
+  return { title: t("title"), robots: noIndex };
 }
 
 export default async function OrdersPage() {

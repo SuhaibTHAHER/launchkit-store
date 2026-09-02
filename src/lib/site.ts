@@ -1,2 +1,2 @@
-// Replace with the real production domain before launch.
-export const siteUrl = "https://launchkit.example";
+// Update if a custom domain is connected later.
+export const siteUrl = "https://launchkit-store.vercel.app";

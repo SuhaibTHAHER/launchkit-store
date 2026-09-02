@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { ThemeProvider } from "@/components/theme-provider";
 import { siteUrl } from "@/lib/site";
+import { buildAlternates } from "@/lib/seo";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -48,6 +49,7 @@ export async function generateMetadata({
       template: "%s",
     },
     description: t("description"),
+    alternates: buildAlternates(locale, ""),
     openGraph: {
       siteName: "Launchkit",
       type: "website",

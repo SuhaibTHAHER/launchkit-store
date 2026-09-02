@@ -7,6 +7,7 @@ import { products } from "@/lib/products";
 import { pick } from "@/lib/localized";
 import { ProductScreenshot } from "@/components/product-screenshot";
 import type { Locale } from "@/i18n/routing";
+import { noIndex } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -15,7 +16,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "myProducts" });
-  return { title: t("title") };
+  return { title: t("title"), robots: noIndex };
 }
 
 export default async function MyProductsPage() {

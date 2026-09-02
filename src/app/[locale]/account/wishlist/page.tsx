@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { getWishlistSlugs } from "@/lib/commerce";
 import { products } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
+import { noIndex } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -12,7 +13,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "wishlist" });
-  return { title: t("title") };
+  return { title: t("title"), robots: noIndex };
 }
 
 export default async function WishlistPage() {

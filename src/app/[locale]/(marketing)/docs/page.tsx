@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/container";
+import { buildAlternates } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -10,7 +11,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "docs" });
-  return { title: t("title"), description: t("subtitle") };
+  return { title: t("title"), description: t("subtitle"), alternates: buildAlternates(locale, "/docs") };
 }
 
 export default async function DocsPage() {

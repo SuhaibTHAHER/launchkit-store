@@ -7,6 +7,8 @@ import { Container } from "@/components/container";
 import { getPost, posts } from "@/lib/blog";
 import { pick } from "@/lib/localized";
 import type { Locale } from "@/i18n/routing";
+import { buildAlternates } from "@/lib/seo";
+import { siteUrl } from "@/lib/site";
 
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));
@@ -25,6 +27,7 @@ export async function generateMetadata({
   return {
     title: `${title} — Launchkit Blog`,
     description,
+    alternates: buildAlternates(locale, `/blog/${post.slug}`),
     openGraph: { title, description, type: "article" },
   };
 }
@@ -41,8 +44,19 @@ export default async function BlogPostPage({
   const t = await getTranslations("blog");
   const locale = (await getLocale()) as Locale;
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: pick(post.title, locale),
+    description: pick(post.excerpt, locale),
+    datePublished: post.publishedAt,
+    author: { "@type": "Organization", name: "Launchkit" },
+    url: `${siteUrl}${locale === "ar" ? "/ar" : ""}/blog/${post.slug}`,
+  };
+
   return (
     <article className="py-16 sm:py-24">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Container className="max-w-2xl">
         <Link
           href="/blog"

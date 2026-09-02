@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ProfileForm } from "@/components/auth/profile-form";
 import { createClient } from "@/lib/supabase/server";
+import { noIndex } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -12,7 +13,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "settingsPage" });
-  return { title: t("title") };
+  return { title: t("title"), robots: noIndex };
 }
 
 export default async function SettingsPage() {

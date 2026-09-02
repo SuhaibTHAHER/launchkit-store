@@ -15,6 +15,7 @@ import { pick } from "@/lib/localized";
 import type { Locale } from "@/i18n/routing";
 import { getOwnedProductSlugs, getWishlistSlugs } from "@/lib/commerce";
 import { createClient } from "@/lib/supabase/server";
+import { buildAlternates } from "@/lib/seo";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -33,6 +34,7 @@ export async function generateMetadata({
   return {
     title: `${name} — Launchkit`,
     description: tagline,
+    alternates: buildAlternates(locale, `/products/${product.slug}`),
     openGraph: {
       title: `${name} — Launchkit`,
       description: tagline,
@@ -83,9 +85,28 @@ export default async function ProductPage({
     },
   };
 
+  const faqJsonLd =
+    product.faq.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: product.faq.map((item) => ({
+            "@type": "Question",
+            name: pick(item.question, locale),
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: pick(item.answer, locale),
+            },
+          })),
+        }
+      : null;
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      {faqJsonLd && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      )}
 
       <section className="py-16 sm:py-24">
         <Container>

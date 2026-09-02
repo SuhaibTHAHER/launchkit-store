@@ -6,6 +6,7 @@ import { SignUpForm } from "@/components/auth/sign-up-form";
 import { createClient } from "@/lib/supabase/server";
 import type { Locale } from "@/i18n/routing";
 import { safeNextPath } from "@/lib/safe-redirect";
+import { noIndex } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -14,7 +15,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "auth" });
-  return { title: t("signUpTitle") };
+  return { title: t("signUpTitle"), robots: noIndex };
 }
 
 export default async function SignUpPage({
