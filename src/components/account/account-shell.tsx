@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { usePathname } from "@/i18n/navigation";
@@ -30,31 +31,34 @@ export function AccountShell({
     <div className="flex min-h-screen">
       <Sidebar fullName={fullName} email={email} />
 
-      {mobileOpen && (
-        <div className="fixed inset-0 z-40 lg:hidden">
-          <button
-            type="button"
-            aria-label={t("closeMenu")}
-            onClick={() => setMobileOpen(false)}
-            className="absolute inset-0 bg-black/40"
-          />
-          <div className="absolute inset-y-0 start-0 w-72 border-e-2 border-foreground bg-background">
+      {mobileOpen &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <div className="fixed inset-0 z-40 lg:hidden">
             <button
               type="button"
-              onClick={() => setMobileOpen(false)}
-              className="absolute end-3 top-4 inline-flex size-8 items-center justify-center rounded-full border border-border"
               aria-label={t("closeMenu")}
-            >
-              <X className="size-4" />
-            </button>
-            <SidebarContent
-              fullName={fullName}
-              email={email}
-              onNavigate={() => setMobileOpen(false)}
+              onClick={() => setMobileOpen(false)}
+              className="absolute inset-0 bg-black/40"
             />
-          </div>
-        </div>
-      )}
+            <div className="absolute inset-y-0 start-0 w-72 border-e-2 border-foreground bg-background">
+              <button
+                type="button"
+                onClick={() => setMobileOpen(false)}
+                className="absolute end-3 top-4 inline-flex size-8 items-center justify-center rounded-full border border-border"
+                aria-label={t("closeMenu")}
+              >
+                <X className="size-4" />
+              </button>
+              <SidebarContent
+                fullName={fullName}
+                email={email}
+                onNavigate={() => setMobileOpen(false)}
+              />
+            </div>
+          </div>,
+          document.body
+        )}
 
       <div className="flex min-w-0 flex-1 flex-col">
         <Topbar onMenuClick={() => setMobileOpen(true)} />
