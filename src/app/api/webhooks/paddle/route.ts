@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { products } from "@/lib/products";
+import { getProducts } from "@/lib/products";
 
 /**
  * Paddle Billing webhook — grants product ownership after a *server-verified*
@@ -79,6 +79,7 @@ export async function POST(request: NextRequest) {
   }
 
   const items: Array<{ price: { id: string; unit_price: { amount: string } } }> = transaction.items ?? [];
+  const products = await getProducts();
 
   for (const item of items) {
     const product = products.find((p) => p.paddlePriceId === item.price.id);

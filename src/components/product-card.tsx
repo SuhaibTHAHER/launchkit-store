@@ -11,7 +11,7 @@ import { ProductScreenshot } from "@/components/product-screenshot";
 import { WishlistButton } from "@/components/wishlist-button";
 
 function sku(product: Product) {
-  return `LK-${product.id.replace("launchkit-", "").slice(0, 4).toUpperCase()}`;
+  return `LK-${product.slug.replace("launchkit-", "").slice(0, 4).toUpperCase()}`;
 }
 
 export function ProductCard({

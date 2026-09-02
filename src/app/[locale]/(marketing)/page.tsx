@@ -3,7 +3,7 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/container";
 import { ProductCard } from "@/components/product-card";
-import { products } from "@/lib/products";
+import { getProducts } from "@/lib/products";
 import { categories } from "@/lib/categories";
 import { pick } from "@/lib/localized";
 import type { Locale } from "@/i18n/routing";
@@ -19,6 +19,7 @@ export default async function Home() {
     data: { user },
   } = await supabase.auth.getUser();
   const wishlistSlugs = await getWishlistSlugs();
+  const products = await getProducts();
 
   const reasons = [
     { icon: Code2, title: t("reason1Title"), description: t("reason1Desc") },

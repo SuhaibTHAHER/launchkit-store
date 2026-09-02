@@ -14,7 +14,7 @@ export type DemoPurchaseState = { error: string } | { success: true } | null;
  * this action (and the RLS policies it relies on) should be removed.
  */
 export async function demoPurchaseAction(productSlug: string): Promise<DemoPurchaseState> {
-  const product = getProduct(productSlug);
+  const product = await getProduct(productSlug);
   if (!product) return { error: "Unknown product." };
 
   const supabase = await createClient();

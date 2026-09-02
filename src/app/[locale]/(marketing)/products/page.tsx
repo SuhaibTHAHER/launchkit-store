@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/container";
 import { ProductBrowser } from "@/components/product-browser";
-import { products } from "@/lib/products";
+import { getProducts } from "@/lib/products";
 import { getCategory } from "@/lib/categories";
 import { getWishlistSlugs } from "@/lib/commerce";
 import { createClient } from "@/lib/supabase/server";
@@ -32,6 +32,7 @@ export default async function ProductsPage({
     data: { user },
   } = await supabase.auth.getUser();
   const wishlistSlugs = await getWishlistSlugs();
+  const products = await getProducts();
 
   return (
     <section className="py-16 sm:py-24">

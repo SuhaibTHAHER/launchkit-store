@@ -3,7 +3,7 @@ import { Download, ExternalLink } from "lucide-react";
 import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { getOwnedProducts } from "@/lib/commerce";
-import { products } from "@/lib/products";
+import { getAllProducts } from "@/lib/products";
 import { pick } from "@/lib/localized";
 import { ProductScreenshot } from "@/components/product-screenshot";
 import type { Locale } from "@/i18n/routing";
@@ -22,6 +22,7 @@ export async function generateMetadata({
 export default async function MyProductsPage() {
   const locale = (await getLocale()) as Locale;
   const owned = await getOwnedProducts();
+  const products = await getAllProducts();
   const t = await getTranslations("myProducts");
   const dateFormatter = new Intl.DateTimeFormat(locale, { dateStyle: "medium" });
 

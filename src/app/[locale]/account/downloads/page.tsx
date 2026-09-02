@@ -3,7 +3,7 @@ import { Download, Info } from "lucide-react";
 import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { getOwnedProducts } from "@/lib/commerce";
-import { products } from "@/lib/products";
+import { getAllProducts } from "@/lib/products";
 import { pick } from "@/lib/localized";
 import type { Locale } from "@/i18n/routing";
 import { noIndex } from "@/lib/seo";
@@ -21,6 +21,7 @@ export async function generateMetadata({
 export default async function DownloadsPage() {
   const locale = (await getLocale()) as Locale;
   const owned = await getOwnedProducts();
+  const products = await getAllProducts();
   const t = await getTranslations("downloadsPage");
 
   const ownedWithDetails = owned

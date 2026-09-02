@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { getWishlistSlugs } from "@/lib/commerce";
-import { products } from "@/lib/products";
+import { getAllProducts } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
 import { noIndex } from "@/lib/seo";
 
@@ -18,6 +18,7 @@ export async function generateMetadata({
 
 export default async function WishlistPage() {
   const wishlistSlugs = await getWishlistSlugs();
+  const products = await getAllProducts();
   const t = await getTranslations("wishlist");
 
   const wishlistedProducts = products.filter((p) => wishlistSlugs.has(p.slug));

@@ -1,8 +1,10 @@
 import type { MetadataRoute } from "next";
-import { products } from "@/lib/products";
+import { getProducts } from "@/lib/products";
 import { posts } from "@/lib/blog";
 import { siteUrl } from "@/lib/site";
 import { routing } from "@/i18n/routing";
+
+export const revalidate = 3600;
 
 const staticPaths = [
   "",
@@ -23,8 +25,11 @@ function localizedUrl(path: string, locale: string) {
   return `${siteUrl}${prefix}${path}`;
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [];
+
+  // A DB hiccup here should degrade the sitemap, not fail the whole build/route.
+  const products = await getProducts().catch(() => []);
 
   for (const locale of routing.locales) {
     for (const path of staticPaths) {

@@ -9,7 +9,7 @@ import { ProductGallery } from "@/components/product-gallery";
 import { RelatedProducts } from "@/components/related-products";
 import { FAQ } from "@/components/faq";
 import { WishlistButton } from "@/components/wishlist-button";
-import { getProduct, getRelatedProducts, products } from "@/lib/products";
+import { getProduct, getRelatedProducts, getProducts } from "@/lib/products";
 import { getCategory } from "@/lib/categories";
 import { pick } from "@/lib/localized";
 import type { Locale } from "@/i18n/routing";
@@ -17,9 +17,10 @@ import { getOwnedProductSlugs, getWishlistSlugs } from "@/lib/commerce";
 import { createClient } from "@/lib/supabase/server";
 import { buildAlternates } from "@/lib/seo";
 
-export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
-}
+// No generateStaticParams: every page under [locale] is already
+// request-rendered (the Navbar reads the session on every request), so a
+// build-time DB dependency here would only add fragility for zero benefit —
+// and dynamic rendering is what lets an admin edit show up immediately.
 
 export async function generateMetadata({
   params,
@@ -27,8 +28,8 @@ export async function generateMetadata({
   params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
   const { locale, slug } = await params;
-  const product = getProduct(slug);
-  if (!product) return {};
+  const product = await getProduct(slug);
+  if (!product || !product.published) return {};
   const name = pick(product.name, locale as Locale);
   const tagline = pick(product.tagline, locale as Locale);
   return {
@@ -50,13 +51,13 @@ export default async function ProductPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = getProduct(slug);
-  if (!product) notFound();
+  const product = await getProduct(slug);
+  if (!product || !product.published) notFound();
 
   const t = await getTranslations("productDetail");
   const locale = (await getLocale()) as Locale;
   const category = getCategory(product.categorySlug);
-  const related = getRelatedProducts(product);
+  const related = getRelatedProducts(product, await getProducts());
   const latestChangelog = product.changelog[0];
 
   const supabase = await createClient();

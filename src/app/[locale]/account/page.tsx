@@ -3,7 +3,7 @@ import { Package, Heart, Receipt, ArrowRight } from "lucide-react";
 import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { getOwnedProducts, getOrders, getWishlistSlugs } from "@/lib/commerce";
-import { products } from "@/lib/products";
+import { getAllProducts } from "@/lib/products";
 import { pick } from "@/lib/localized";
 import type { Locale } from "@/i18n/routing";
 import { noIndex } from "@/lib/seo";
@@ -21,10 +21,11 @@ export async function generateMetadata({
 export default async function AccountDashboardPage() {
   const locale = (await getLocale()) as Locale;
 
-  const [owned, wishlistSlugs, orders] = await Promise.all([
+  const [owned, wishlistSlugs, orders, products] = await Promise.all([
     getOwnedProducts(),
     getWishlistSlugs(),
     getOrders(),
+    getAllProducts(),
   ]);
 
   const t = await getTranslations("dashboard");

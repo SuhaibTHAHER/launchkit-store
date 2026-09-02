@@ -2,13 +2,14 @@ import { Boxes } from "lucide-react";
 import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/container";
-import { products } from "@/lib/products";
+import { getProducts } from "@/lib/products";
 import { pick } from "@/lib/localized";
 import type { Locale } from "@/i18n/routing";
 
 export async function Footer() {
   const t = await getTranslations("footer");
   const locale = (await getLocale()) as Locale;
+  const products = await getProducts();
 
   const columns = [
     {
