@@ -51,8 +51,8 @@ export async function Footer() {
       <Container>
         <div className="grid gap-10 lg:grid-cols-[1.6fr_repeat(4,1fr)]">
           <div>
-            <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
-              <span className="flex size-7 items-center justify-center rounded-md bg-accent text-accent-foreground">
+            <Link href="/" className="font-display flex items-center gap-2 text-lg font-semibold tracking-tight">
+              <span className="flex size-7 items-center justify-center bg-accent text-accent-foreground">
                 <Boxes className="size-4" />
               </span>
               Launchkit
@@ -62,13 +62,13 @@ export async function Footer() {
 
           {columns.map((col) => (
             <div key={col.title}>
-              <h3 className="text-sm font-semibold text-foreground">{col.title}</h3>
+              <h3 className="label text-xs text-foreground">{col.title}</h3>
               <ul className="mt-4 space-y-3">
                 {col.links.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                      className="label text-xs text-muted-foreground transition-colors hover:text-foreground"
                     >
                       {link.label}
                     </Link>

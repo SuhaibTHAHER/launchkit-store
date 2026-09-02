@@ -27,8 +27,8 @@ export async function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/80 bg-background/85 backdrop-blur">
       <Container className="flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
-          <span className="flex size-7 items-center justify-center rounded-md bg-accent text-accent-foreground">
+        <Link href="/" className="font-display flex items-center gap-2 text-lg font-semibold tracking-tight">
+          <span className="flex size-7 items-center justify-center bg-accent text-accent-foreground">
             <Boxes className="size-4" />
           </span>
           Launchkit
@@ -39,7 +39,7 @@ export async function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="label text-xs text-muted-foreground transition-colors hover:text-foreground"
             >
               {link.label}
             </Link>
@@ -51,7 +51,7 @@ export async function Navbar() {
           <ThemeToggle />
           <Link
             href={authHref}
-            className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="label bg-accent px-4 py-2 text-xs text-accent-foreground transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           >
             {authLabel}
           </Link>

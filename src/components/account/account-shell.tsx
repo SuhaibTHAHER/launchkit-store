@@ -38,7 +38,7 @@ export function AccountShell({
             onClick={() => setMobileOpen(false)}
             className="absolute inset-0 bg-black/40"
           />
-          <div className="absolute inset-y-0 start-0 w-72 border-e border-border bg-background shadow-2xl">
+          <div className="absolute inset-y-0 start-0 w-72 border-e-2 border-foreground bg-background">
             <button
               type="button"
               onClick={() => setMobileOpen(false)}

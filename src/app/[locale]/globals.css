@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --background: #faf9f7;
-  --foreground: #16181b;
+  --background: #fff8f7;
+  --foreground: #251917;
   --surface: #ffffff;
-  --surface-foreground: #16181b;
-  --border: #e7e5e1;
-  --muted: #f0efec;
-  --muted-foreground: #6b6f76;
-  --accent: #d97a1f;
-  --accent-foreground: #16181b;
-  --ring: #d97a1f;
-  --positive: #2f7a4d;
-  --negative: #b3432f;
-  --sidebar: #f3f1ec;
+  --surface-foreground: #251917;
+  --border: #dfbfbb;
+  --muted: #fff0ee;
+  --muted-foreground: #58413e;
+  --accent: #b23a2e;
+  --accent-foreground: #ffffff;
+  --ring: #b23a2e;
+  --positive: #536347;
+  --negative: #ba1a1a;
+  --sidebar: #fff0ee;
 }
 
 @theme inline {
@@ -30,28 +30,52 @@
   --color-positive: var(--positive);
   --color-negative: var(--negative);
   --color-sidebar: var(--sidebar);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-plex-mono);
+
+  /* Spec Sheet: flat industrial catalog — every corner is sharp. */
+  --radius-xs: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-4xl: 0px;
+  --radius-full: 0px;
 }
 
 html[dir="rtl"] {
   --font-sans: var(--font-cairo);
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
+
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] h4,
+html[dir="rtl"] h5,
+html[dir="rtl"] h6 {
+  font-family: var(--font-cairo);
+}
+
 .dark {
-  --background: #0b0c0e;
-  --foreground: #f2f1ee;
-  --surface: #141517;
-  --surface-foreground: #f2f1ee;
-  --border: #26282c;
-  --muted: #1b1c1f;
-  --muted-foreground: #9a9da3;
-  --accent: #f0a63f;
-  --accent-foreground: #16181b;
-  --ring: #f0a63f;
-  --positive: #6fbf8b;
-  --negative: #e08877;
-  --sidebar: #141517;
+  --background: #1a1210;
+  --foreground: #f5ece9;
+  --surface: #241a17;
+  --surface-foreground: #f5ece9;
+  --border: #3d2e2a;
+  --muted: #2a1f1c;
+  --muted-foreground: #b09a92;
+  --accent: #e2564a;
+  --accent-foreground: #fff8f7;
+  --ring: #e2564a;
+  --positive: #8fae7c;
+  --negative: #ff6f61;
+  --sidebar: #201613;
 }
 
 * {
@@ -96,9 +120,11 @@ body {
   background: var(--accent);
   color: var(--accent-foreground);
   padding: 0.6rem 1rem;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   transition: top 0.15s ease;
 }
 
@@ -112,4 +138,18 @@ body {
 
 .tabular {
   font-variant-numeric: tabular-nums;
+}
+
+.label {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+html[dir="rtl"] .font-display {
+  font-family: var(--font-cairo);
 }
