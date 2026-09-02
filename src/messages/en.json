@@ -3,6 +3,9 @@
     "title": "Launchkit — Next.js templates for indie founders",
     "description": "Launchkit AI, Launchkit Dashboard, and the Launchkit Complete bundle — Next.js templates to ship your SaaS site and app shell in a weekend."
   },
+  "breadcrumb": {
+    "home": "Home"
+  },
   "nav": {
     "products": "Products",
     "blog": "Blog",

@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/container";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { posts } from "@/lib/blog";
 import { pick } from "@/lib/localized";
 import type { Locale } from "@/i18n/routing";
@@ -20,11 +21,13 @@ export async function generateMetadata({
 
 export default async function BlogPage() {
   const t = await getTranslations("blog");
+  const tBreadcrumb = await getTranslations("breadcrumb");
   const locale = (await getLocale()) as Locale;
 
   return (
     <section className="py-16 sm:py-24">
       <Container className="max-w-3xl">
+        <Breadcrumbs items={[{ label: tBreadcrumb("home"), href: "/" }, { label: t("title") }]} />
         <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
           {t("title")}
         </h1>

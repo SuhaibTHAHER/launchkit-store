@@ -3,6 +3,9 @@
     "title": "Launchkit — قوالب Next.js للمؤسسين المستقلين",
     "description": "Launchkit AI وLaunchkit Dashboard وباقة Launchkit Complete — قوالب Next.js لإطلاق موقع منتجك ولوحة التحكم تبعه بعطلة أسبوع واحدة."
   },
+  "breadcrumb": {
+    "home": "الرئيسية"
+  },
   "nav": {
     "products": "المنتجات",
     "blog": "المدونة",

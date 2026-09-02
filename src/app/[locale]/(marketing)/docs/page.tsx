@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/container";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { buildAlternates } from "@/lib/seo";
 
 export async function generateMetadata({
@@ -16,6 +17,7 @@ export async function generateMetadata({
 
 export default async function DocsPage() {
   const t = await getTranslations("docs");
+  const tBreadcrumb = await getTranslations("breadcrumb");
 
   const sections = [
     { id: "getting-started", label: t("gettingStarted") },
@@ -29,6 +31,7 @@ export default async function DocsPage() {
   return (
     <section className="py-16 sm:py-24">
       <Container>
+        <Breadcrumbs items={[{ label: tBreadcrumb("home"), href: "/" }, { label: t("title") }]} />
         <div className="grid gap-12 lg:grid-cols-[220px_1fr]">
           <nav className="h-fit lg:sticky lg:top-24" aria-label="Documentation sections">
             <p className="text-sm font-semibold text-foreground">{t("nav")}</p>

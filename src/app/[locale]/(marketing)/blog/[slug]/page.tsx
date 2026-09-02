@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArrowRight } from "lucide-react";
 import { getTranslations, getLocale } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/container";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { getPost, posts } from "@/lib/blog";
 import { pick } from "@/lib/localized";
 import type { Locale } from "@/i18n/routing";
@@ -42,6 +41,7 @@ export default async function BlogPostPage({
   if (!post) notFound();
 
   const t = await getTranslations("blog");
+  const tBreadcrumb = await getTranslations("breadcrumb");
   const locale = (await getLocale()) as Locale;
 
   const jsonLd = {
@@ -58,13 +58,13 @@ export default async function BlogPostPage({
     <article className="py-16 sm:py-24">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Container className="max-w-2xl">
-        <Link
-          href="/blog"
-          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
-        >
-          <ArrowRight className="size-4 rotate-180 rtl:rotate-0" />
-          {t("backToBlog")}
-        </Link>
+        <Breadcrumbs
+          items={[
+            { label: tBreadcrumb("home"), href: "/" },
+            { label: t("title"), href: "/blog" },
+            { label: pick(post.title, locale) },
+          ]}
+        />
 
         <p className="mt-6 text-xs text-muted-foreground">
           {new Date(post.publishedAt).toLocaleDateString(locale, {
