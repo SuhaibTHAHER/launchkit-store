@@ -135,6 +135,7 @@
     "recentOrdersTitle": "Recent orders"
   },
   "myProducts": {
+    "owned": "Owned",
     "title": "My Products",
     "subtitle": "Templates you own — view the product page or grab the download any time.",
     "empty": "You don't own any products yet.",

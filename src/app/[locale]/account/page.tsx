@@ -7,6 +7,7 @@ import { getAllProducts } from "@/lib/products";
 import { pick } from "@/lib/localized";
 import type { Locale } from "@/i18n/routing";
 import { noIndex } from "@/lib/seo";
+import { StatusStamp } from "@/components/account/status-stamp";
 
 export async function generateMetadata({
   params,
@@ -45,45 +46,47 @@ export default async function AccountDashboardPage() {
 
   return (
     <div className="mx-auto max-w-4xl">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">{t("title")}</h1>
-        <p className="mt-1 text-sm text-muted-foreground">{t("subtitle")}</p>
+      <div className="border-b border-border pb-6">
+        <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+          {t("title")}
+        </h1>
+        <p className="mt-2 text-sm text-muted-foreground">{t("subtitle")}</p>
       </div>
 
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="rounded-2xl border border-border bg-surface p-5">
+        <div className="border border-border bg-surface p-5">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Package className="size-4" />
-            <span className="text-sm font-medium">{t("productsOwned")}</span>
+            <span className="label text-[11px]">{t("productsOwned")}</span>
           </div>
           <p className="mt-3 text-3xl font-semibold tabular-nums text-foreground">{owned.length}</p>
         </div>
-        <div className="rounded-2xl border border-border bg-surface p-5">
+        <div className="border border-border bg-surface p-5">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Heart className="size-4" />
-            <span className="text-sm font-medium">{t("wishlistItems")}</span>
+            <span className="label text-[11px]">{t("wishlistItems")}</span>
           </div>
           <p className="mt-3 text-3xl font-semibold tabular-nums text-foreground">{wishlistSlugs.size}</p>
         </div>
-        <div className="rounded-2xl border border-border bg-surface p-5">
+        <div className="border border-border bg-surface p-5">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Receipt className="size-4" />
-            <span className="text-sm font-medium">{t("totalOrders")}</span>
+            <span className="label text-[11px]">{t("totalOrders")}</span>
           </div>
           <p className="mt-3 text-3xl font-semibold tabular-nums text-foreground">{orders.length}</p>
         </div>
       </div>
 
-      <div className="mt-8 rounded-2xl border border-border bg-surface p-6">
+      <div className="mt-6 border border-border bg-surface p-6">
         <div className="flex items-center justify-between">
-          <h2 className="font-semibold text-foreground">{t("myProductsTitle")}</h2>
+          <h2 className="label text-xs text-foreground">{t("myProductsTitle")}</h2>
           {ownedWithDetails.length > 0 && (
             <Link
               href="/account/products"
-              className="inline-flex items-center gap-1 text-sm font-medium text-accent"
+              className="label inline-flex items-center gap-1 text-[11px] font-medium text-accent"
             >
               {t("viewAll")}
-              <ArrowRight className="size-4 rtl:rotate-180" />
+              <ArrowRight className="size-3.5 rtl:rotate-180" />
             </Link>
           )}
         </div>
@@ -112,7 +115,7 @@ export default async function AccountDashboardPage() {
             </div>
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground hover:opacity-90"
+              className="inline-flex items-center gap-2 bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground hover:opacity-90"
             >
               {t("browseProducts")}
             </Link>
@@ -120,16 +123,16 @@ export default async function AccountDashboardPage() {
         )}
       </div>
 
-      <div className="mt-6 rounded-2xl border border-border bg-surface p-6">
+      <div className="mt-6 border border-border bg-surface p-6">
         <div className="flex items-center justify-between">
-          <h2 className="font-semibold text-foreground">{t("recentOrdersTitle")}</h2>
+          <h2 className="label text-xs text-foreground">{t("recentOrdersTitle")}</h2>
           {orders.length > 0 && (
             <Link
               href="/account/orders"
-              className="inline-flex items-center gap-1 text-sm font-medium text-accent"
+              className="label inline-flex items-center gap-1 text-[11px] font-medium text-accent"
             >
               {t("viewAll")}
-              <ArrowRight className="size-4 rtl:rotate-180" />
+              <ArrowRight className="size-3.5 rtl:rotate-180" />
             </Link>
           )}
         </div>
@@ -140,12 +143,10 @@ export default async function AccountDashboardPage() {
               <li key={order.id} className="flex items-center justify-between py-3 text-sm">
                 <span className="text-foreground">{order.product_slug}</span>
                 <span className="flex items-center gap-3">
-                  <span className="text-muted-foreground">
+                  <span className="tabular-nums text-muted-foreground">
                     {order.currency} {order.amount}
                   </span>
-                  <span className="text-xs font-medium text-muted-foreground">
-                    {statusLabel(order.status)}
-                  </span>
+                  <StatusStamp status={order.status}>{statusLabel(order.status)}</StatusStamp>
                 </span>
               </li>
             ))}

@@ -167,6 +167,11 @@ export const getProduct = cache(async (slug: string): Promise<Product | null> =>
   return data ? rowToProduct(data as unknown as ProductRow) : null;
 });
 
+/** Derived catalog-style SKU code, e.g. "launchkit-ai" -> "LK-AI". */
+export function productSku(slug: string): string {
+  return `LK-${slug.replace("launchkit-", "").slice(0, 4).toUpperCase()}`;
+}
+
 export function getRelatedProducts(
   product: Product,
   allProducts: Product[],

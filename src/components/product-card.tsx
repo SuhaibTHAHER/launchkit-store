@@ -3,16 +3,12 @@
 import { ArrowRight } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import type { Product } from "@/lib/products";
+import { productSku, type Product } from "@/lib/products";
 import type { Locale } from "@/i18n/routing";
 import { getCategory } from "@/lib/categories";
 import { pick } from "@/lib/localized";
 import { ProductScreenshot } from "@/components/product-screenshot";
 import { WishlistButton } from "@/components/wishlist-button";
-
-function sku(product: Product) {
-  return `LK-${product.slug.replace("launchkit-", "").slice(0, 4).toUpperCase()}`;
-}
 
 export function ProductCard({
   product,
@@ -49,7 +45,7 @@ export function ProductCard({
       </div>
 
       <div className="mt-4 flex items-center justify-between">
-        <span className="label text-[11px] text-muted-foreground">{sku(product)}</span>
+        <span className="label text-[11px] text-muted-foreground">{productSku(product.slug)}</span>
         {category && (
           <span className="label text-[11px] text-muted-foreground">
             {pick(category.name, locale)}
