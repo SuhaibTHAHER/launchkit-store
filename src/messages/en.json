@@ -182,6 +182,11 @@
   "faqPage": {
     "title": "Frequently asked questions"
   },
+  "notFound": {
+    "title": "This item isn't in the catalog",
+    "description": "The page you're looking for doesn't exist or has moved.",
+    "backHome": "Back to homepage"
+  },
   "contact": {
     "title": "Contact",
     "subtitle": "Pre-sale question, support, or a refund request — we reply within two business days.",
