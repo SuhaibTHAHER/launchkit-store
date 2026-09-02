@@ -84,6 +84,7 @@
     "youMightAlsoLike": "You might also like",
     "productFaq": "{name} FAQ",
     "checkoutNotConfigured": "Checkout isn't configured yet — see README for setup.",
+    "demoCheckoutNote": "Demo checkout — Paddle isn't connected yet, so this won't charge a card. It still adds the template to your account so you can try the rest of the site.",
     "whoItsForTitle": "Who it's for",
     "whoItsNotForTitle": "Who it's not for",
     "notIncludedTitle": "Not included",

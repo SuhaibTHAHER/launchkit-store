@@ -84,6 +84,7 @@
     "youMightAlsoLike": "قد يعجبك أيضًا",
     "productFaq": "أسئلة شائعة عن {name}",
     "checkoutNotConfigured": "الدفع لسه مو مفعّل — راجع README للإعداد.",
+    "demoCheckoutNote": "دفع تجريبي — Paddle لسه مو موصول، فما رح تنخصم أي بطاقة. بس رح تنضاف القالب لحسابك فعليًا عشان تجرب باقي الموقع.",
     "whoItsForTitle": "لمين هذا المنتج",
     "whoItsNotForTitle": "لمين مش مناسب",
     "notIncludedTitle": "غير مشمول",

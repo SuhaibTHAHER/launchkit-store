@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useLocale } from "next-intl";
 import { ProductScreenshot } from "@/components/product-screenshot";
 import { pick } from "@/lib/localized";
@@ -29,14 +30,19 @@ export function ProductGallery({ gallery }: { gallery: GalleryImage[] }) {
               type="button"
               role="tab"
               aria-selected={active === index}
+              aria-label={pick(image.label, locale)}
               onClick={() => setActive(index)}
-              className={`rounded-lg border px-3 py-2 text-xs font-medium transition-colors ${
-                active === index
-                  ? "border-accent bg-accent/10 text-accent"
-                  : "border-border text-muted-foreground hover:text-foreground"
+              className={`overflow-hidden border-2 transition-colors ${
+                active === index ? "border-accent" : "border-transparent hover:border-border"
               }`}
             >
-              {pick(image.label, locale)}
+              <Image
+                src={image.src}
+                alt={pick(image.alt, locale)}
+                width={112}
+                height={70}
+                className="h-[70px] w-28 object-cover"
+              />
             </button>
           ))}
         </div>

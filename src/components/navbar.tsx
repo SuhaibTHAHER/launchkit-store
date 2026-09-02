@@ -14,6 +14,16 @@ export async function Navbar() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  const profile = user
+    ? (
+        await supabase
+          .from("launchkit_profiles")
+          .select("full_name")
+          .eq("id", user.id)
+          .single()
+      ).data
+    : null;
+
   const links = [
     { href: "/products", label: t("products") },
     { href: "/blog", label: t("blog") },
@@ -22,7 +32,14 @@ export async function Navbar() {
   ];
 
   const authHref = user ? "/account" : "/login";
-  const authLabel = user ? t("account") : t("signIn");
+  const displayName: string = profile?.full_name || user?.email || "";
+  const authLabel = user ? displayName : t("signIn");
+  const initials = displayName
+    .split(" ")
+    .map((s) => s[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/80 bg-background/85 backdrop-blur">
@@ -49,12 +66,24 @@ export async function Navbar() {
         <div className="hidden items-center gap-3 md:flex">
           <LocaleSwitcher />
           <ThemeToggle />
-          <Link
-            href={authHref}
-            className="label bg-accent px-4 py-2 text-xs text-accent-foreground transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-          >
-            {authLabel}
-          </Link>
+          {user ? (
+            <Link
+              href={authHref}
+              className="flex items-center gap-2 border border-border py-1.5 pe-3 ps-1.5 text-sm text-foreground transition-colors hover:border-accent"
+            >
+              <span className="flex size-7 shrink-0 items-center justify-center bg-accent text-xs font-semibold text-accent-foreground">
+                {initials || "?"}
+              </span>
+              <span className="max-w-32 truncate">{displayName}</span>
+            </Link>
+          ) : (
+            <Link
+              href={authHref}
+              className="label bg-accent px-4 py-2 text-xs text-accent-foreground transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            >
+              {authLabel}
+            </Link>
+          )}
         </div>
 
         <div className="flex items-center gap-2 md:hidden">
