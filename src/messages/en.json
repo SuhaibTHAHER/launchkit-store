@@ -103,6 +103,7 @@
     "goToMyProducts": "Go to My Products"
   },
   "accountNav": {
+    "brand": "Account",
     "dashboard": "Dashboard",
     "myProducts": "My Products",
     "downloads": "Downloads",

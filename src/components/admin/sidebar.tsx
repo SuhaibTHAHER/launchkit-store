@@ -27,12 +27,19 @@ export function SidebarContent({
 
   return (
     <div className="flex h-full flex-col bg-sidebar">
-      <div className="flex h-16 items-center gap-2 px-5 font-semibold tracking-tight">
-        <span className="flex size-7 items-center justify-center rounded-md bg-accent text-accent-foreground">
+      <Link href="/" className="flex items-center gap-2.5 border-b border-border px-5 py-3.5">
+        <span className="flex size-7 shrink-0 items-center justify-center bg-accent text-accent-foreground">
           <ShieldCheck className="size-4" />
         </span>
-        {t("brand")}
-      </div>
+        <span className="min-w-0">
+          <span className="font-display block text-sm font-semibold leading-none tracking-tight text-foreground">
+            Launchkit
+          </span>
+          <span className="label mt-1 block text-[10px] leading-none text-muted-foreground">
+            {t("brand")}
+          </span>
+        </span>
+      </Link>
 
       <nav className="flex-1 space-y-1 px-3 py-2" aria-label="Admin">
         {adminNavItems.map((item) => {
