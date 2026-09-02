@@ -232,7 +232,7 @@ export default async function ProductPage({
                 <h2 className="text-sm font-semibold text-foreground">{t("whatsInTheBox")}</h2>
                 <pre
                   dir="ltr"
-                  className="mt-4 overflow-x-auto rounded-xl border border-border bg-muted p-4 text-xs leading-relaxed text-foreground/90"
+                  className="mt-4 overflow-x-auto border border-border bg-surface p-4 font-mono text-xs leading-relaxed text-foreground/90"
                 >
                   <code>{product.fileTree}</code>
                 </pre>

@@ -69,11 +69,11 @@ export default async function DocsPage() {
               </h2>
               <div className="prose-sm mt-4 space-y-4 text-sm leading-relaxed text-foreground/90">
                 <p>{t("installationP1")}</p>
-                <pre dir="ltr" className="overflow-x-auto rounded-lg border border-border bg-muted p-4 text-xs">
+                <pre dir="ltr" className="overflow-x-auto border border-border bg-surface p-4 font-mono text-xs">
                   <code>{`npm install\nnpm run dev`}</code>
                 </pre>
                 <p>{t("installationP2")}</p>
-                <pre dir="ltr" className="overflow-x-auto rounded-lg border border-border bg-muted p-4 text-xs">
+                <pre dir="ltr" className="overflow-x-auto border border-border bg-surface p-4 font-mono text-xs">
                   <code>{`npm run build\nnpm start`}</code>
                 </pre>
               </div>

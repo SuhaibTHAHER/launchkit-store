@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { Menu, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -26,7 +27,7 @@ export function NavbarMobile({
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="inline-flex size-9 items-center justify-center rounded-full border border-border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="inline-flex size-9 items-center justify-center border border-border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           aria-label={open ? t("closeMenu") : t("openMenu")}
           aria-expanded={open}
         >
@@ -34,32 +35,43 @@ export function NavbarMobile({
         </button>
       </div>
 
-      {open && (
-        <nav
-          className="absolute inset-x-0 top-16 border-t border-border bg-background md:hidden"
-          aria-label="Mobile"
-        >
-          <Container className="flex flex-col gap-4 py-4">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Link
-              href={authHref}
+      {open &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <div className="fixed inset-0 z-40 md:hidden">
+            <button
+              type="button"
+              aria-label={t("closeMenu")}
               onClick={() => setOpen(false)}
-              className="rounded-full bg-accent px-4 py-2 text-center text-sm font-medium text-accent-foreground"
+              className="absolute inset-0 bg-black/40"
+            />
+            <nav
+              className="absolute inset-x-0 top-16 border-t border-border bg-background"
+              aria-label="Mobile"
             >
-              {authLabel}
-            </Link>
-          </Container>
-        </nav>
-      )}
+              <Container className="flex flex-col gap-4 py-4">
+                {links.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+                <Link
+                  href={authHref}
+                  onClick={() => setOpen(false)}
+                  className="bg-accent px-4 py-2 text-center text-sm font-medium text-accent-foreground"
+                >
+                  {authLabel}
+                </Link>
+              </Container>
+            </nav>
+          </div>,
+          document.body
+        )}
     </>
   );
 }
