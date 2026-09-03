@@ -1,13 +1,16 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useActionState } from "react";
 import { useTranslations } from "next-intl";
 import { CheckCircle2, Loader2 } from "lucide-react";
-import { submitContactForm } from "@/lib/contact";
+import { submitContactAction, type ContactState } from "@/lib/actions/contact";
 
 export function ContactForm() {
   const t = useTranslations("contact");
-  const [status, setStatus] = useState<"idle" | "loading" | "sent" | "error">("idle");
+  const [state, formAction, pending] = useActionState<ContactState, FormData>(
+    submitContactAction,
+    null
+  );
 
   const reasons = [
     t("reasonPreSale"),
@@ -16,24 +19,7 @@ export function ContactForm() {
     t("reasonOther"),
   ];
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    setStatus("loading");
-    try {
-      await submitContactForm({
-        name: String(form.get("name") ?? ""),
-        email: String(form.get("email") ?? ""),
-        reason: String(form.get("reason") ?? ""),
-        message: String(form.get("message") ?? ""),
-      });
-      setStatus("sent");
-    } catch {
-      setStatus("error");
-    }
-  }
-
-  if (status === "sent") {
+  if (state && "success" in state) {
     return (
       <div className="flex items-start gap-3 rounded-2xl border border-border bg-surface p-6">
         <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-positive" />
@@ -46,7 +32,7 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form action={formAction} className="space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
         <label className="block">
           <span className="mb-1.5 block text-sm font-medium text-foreground">
@@ -101,14 +87,14 @@ export function ContactForm() {
         />
       </label>
 
-      {status === "error" && <p className="text-sm text-negative">{t("error")}</p>}
+      {state && "error" in state && <p className="text-sm text-negative">{t("error")}</p>}
 
       <button
         type="submit"
-        disabled={status === "loading"}
+        disabled={pending}
         className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
       >
-        {status === "loading" && <Loader2 className="size-4 animate-spin" />}
+        {pending && <Loader2 className="size-4 animate-spin" />}
         {t("send")}
       </button>
     </form>

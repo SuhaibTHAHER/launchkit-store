@@ -151,7 +151,7 @@
     "empty": "Nothing to download yet.",
     "emptyDesc": "Purchase a template to unlock its download here.",
     "browseProducts": "Browse templates",
-    "notConnectedNote": "Secure download delivery isn't connected yet — this will serve a signed, time-limited URL once file storage is configured. See README for the delivery architecture.",
+    "notUploadedYet": "Not uploaded yet",
     "downloadButton": "Download .zip"
   },
   "ordersPage": {
@@ -172,11 +172,19 @@
     "title": "Settings",
     "subtitle": "Manage your profile, billing, and account.",
     "securityTitle": "Security",
-    "securityDesc": "Password resets aren't connected yet — this will use Supabase Auth's secure reset-by-email flow once enabled.",
+    "securityDesc": "Change the password you use to sign in.",
+    "confirmNewPassword": "Confirm new password",
+    "updatePassword": "Update password",
+    "passwordUpdated": "Password updated.",
     "notificationsTitle": "Notifications",
-    "notificationsDesc": "Email notification preferences aren't connected yet — order receipts currently come from Paddle directly.",
+    "notificationsDesc": "Choose which emails you'd like to receive. (Sending isn't wired up to a real mail provider yet — this preference is saved and ready for when it is.)",
+    "notifyOrderUpdates": "Order and purchase updates",
     "dangerZoneTitle": "Danger zone",
-    "dangerZoneDesc": "Account deletion isn't self-serve yet — contact support and we'll process it within two business days.",
+    "dangerZoneDesc": "Permanently delete your account and everything tied to it — products you own, orders, and your wishlist. This can't be undone.",
+    "deleteAccount": "Delete account",
+    "deleteConfirmPrompt": "Type DELETE to confirm. This immediately and permanently removes your account.",
+    "deleteConfirmButton": "Permanently delete my account",
+    "cancel": "Cancel",
     "contactSupport": "Contact support"
   },
   "adminNav": {
@@ -185,6 +193,7 @@
     "products": "Products",
     "orders": "Orders",
     "users": "Users",
+    "messages": "Messages",
     "backToAccount": "Back to account",
     "openMenu": "Open menu",
     "closeMenu": "Close menu"

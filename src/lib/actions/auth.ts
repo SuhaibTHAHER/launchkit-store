@@ -8,6 +8,8 @@ import { safeNextPath } from "@/lib/safe-redirect";
 export type AuthState = { error: string } | null;
 export type SignUpState = { error: string } | { confirmEmail: true } | null;
 export type ProfileState = { error: string } | { success: true } | null;
+export type PasswordState = { error: string } | { success: true } | null;
+export type DeleteAccountState = { error: string } | null;
 
 export async function signUpAction(
   _prevState: SignUpState,
@@ -82,4 +84,59 @@ export async function updateProfileAction(
   if (error) return { error: error.message };
 
   return { success: true };
+}
+
+export async function changePasswordAction(
+  _prevState: PasswordState,
+  formData: FormData
+): Promise<PasswordState> {
+  const newPassword = String(formData.get("newPassword") ?? "");
+  const confirmPassword = String(formData.get("confirmPassword") ?? "");
+
+  if (newPassword.length < 8) return { error: "Password must be at least 8 characters." };
+  if (newPassword !== confirmPassword) return { error: "Passwords don't match." };
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Not signed in." };
+
+  const { error } = await supabase.auth.updateUser({ password: newPassword });
+  if (error) return { error: error.message };
+
+  return { success: true };
+}
+
+export async function updateNotificationPrefAction(notifyOrderUpdates: boolean): Promise<void> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return;
+
+  await supabase
+    .from("launchkit_profiles")
+    .update({ notify_order_updates: notifyOrderUpdates, updated_at: new Date().toISOString() })
+    .eq("id", user.id);
+}
+
+export async function deleteAccountAction(
+  _prevState: DeleteAccountState,
+  formData: FormData
+): Promise<DeleteAccountState> {
+  const locale = String(formData.get("locale") ?? "en") as Locale;
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Not signed in." };
+
+  const { error } = await supabase.rpc("launchkit_delete_own_account");
+  if (error) return { error: error.message };
+
+  await supabase.auth.signOut();
+  redirect({ href: "/", locale });
+  return null;
 }

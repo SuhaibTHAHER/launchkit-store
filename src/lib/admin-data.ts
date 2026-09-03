@@ -19,6 +19,16 @@ export type AdminProfile = {
   created_at: string;
 };
 
+export type ContactMessage = {
+  id: string;
+  name: string;
+  email: string;
+  reason: string;
+  message: string;
+  created_at: string;
+  read: boolean;
+};
+
 export type AdminOverview = {
   totalUsers: number;
   totalOrders: number;
@@ -48,6 +58,15 @@ export async function getAllProfiles(): Promise<AdminProfile[]> {
   const { data } = await supabase
     .from("launchkit_profiles")
     .select("id, email, full_name, is_admin, created_at")
+    .order("created_at", { ascending: false });
+  return data ?? [];
+}
+
+export async function getContactMessages(): Promise<ContactMessage[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("launchkit_contact_messages")
+    .select("id, name, email, reason, message, created_at, read")
     .order("created_at", { ascending: false });
   return data ?? [];
 }

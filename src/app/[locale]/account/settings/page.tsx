@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { CreditCard, KeyRound, Bell, TriangleAlert } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
 import { ProfileForm } from "@/components/auth/profile-form";
+import { ChangePasswordForm } from "@/components/auth/change-password-form";
+import { NotificationToggle } from "@/components/account/notification-toggle";
+import { DeleteAccountButton } from "@/components/account/delete-account-button";
 import { createClient } from "@/lib/supabase/server";
 import { noIndex } from "@/lib/seo";
 
@@ -25,7 +27,7 @@ export default async function SettingsPage() {
 
   const { data: profile } = await supabase
     .from("launchkit_profiles")
-    .select("full_name")
+    .select("full_name, notify_order_updates")
     .eq("id", user.id)
     .single();
 
@@ -69,6 +71,9 @@ export default async function SettingsPage() {
           <h2 className="label text-xs text-foreground">{t("securityTitle")}</h2>
         </div>
         <p className="mt-2 text-sm text-muted-foreground">{t("securityDesc")}</p>
+        <div className="mt-4">
+          <ChangePasswordForm />
+        </div>
       </div>
 
       <div className="mt-6 border border-border bg-surface p-6">
@@ -77,6 +82,12 @@ export default async function SettingsPage() {
           <h2 className="label text-xs text-foreground">{t("notificationsTitle")}</h2>
         </div>
         <p className="mt-2 text-sm text-muted-foreground">{t("notificationsDesc")}</p>
+        <div className="mt-4 max-w-sm">
+          <NotificationToggle
+            initialValue={profile?.notify_order_updates ?? true}
+            label={t("notifyOrderUpdates")}
+          />
+        </div>
       </div>
 
       <div className="mt-6 border border-negative/30 bg-negative/5 p-6">
@@ -85,12 +96,7 @@ export default async function SettingsPage() {
           <h2 className="label text-xs text-negative">{t("dangerZoneTitle")}</h2>
         </div>
         <p className="mt-2 text-sm text-muted-foreground">{t("dangerZoneDesc")}</p>
-        <Link
-          href="/contact"
-          className="mt-4 inline-flex items-center gap-2 border border-negative/40 px-4 py-2 text-sm font-semibold text-negative hover:bg-negative/10"
-        >
-          {t("contactSupport")}
-        </Link>
+        <DeleteAccountButton />
       </div>
     </div>
   );

@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Download, Info } from "lucide-react";
 import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { getOwnedProducts } from "@/lib/commerce";
 import { getAllProducts, productSku } from "@/lib/products";
 import { pick } from "@/lib/localized";
+import { createClient } from "@/lib/supabase/server";
+import { DownloadButton } from "@/components/account/download-button";
 import type { Locale } from "@/i18n/routing";
 import { noIndex } from "@/lib/seo";
 
@@ -27,6 +28,12 @@ export default async function DownloadsPage() {
   const ownedWithDetails = owned
     .map((row) => products.find((p) => p.slug === row.product_slug))
     .filter((p): p is NonNullable<typeof p> => !!p);
+
+  // RLS on storage.objects only returns files the signed-in user owns, so
+  // this list is already scoped correctly — no extra filtering needed.
+  const supabase = await createClient();
+  const { data: files } = await supabase.storage.from("launchkit-downloads").list();
+  const availableSlugs = new Set((files ?? []).map((f) => f.name.replace(/\.zip$/, "")));
 
   return (
     <div className="mx-auto max-w-4xl">
@@ -51,41 +58,35 @@ export default async function DownloadsPage() {
           </Link>
         </div>
       ) : (
-        <>
-          <div className="mt-8 flex items-start gap-3 border border-border bg-muted/40 p-4 text-sm text-muted-foreground">
-            <Info className="mt-0.5 size-4 shrink-0" />
-            <p>{t("notConnectedNote")}</p>
-          </div>
-
-          <ul className="mt-4 divide-y divide-border border border-border bg-surface">
-            {ownedWithDetails.map((product) => (
-              <li key={product.slug} className="flex items-center justify-between p-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="label text-[11px] text-muted-foreground">
-                      {productSku(product.slug)}
-                    </span>
-                    <span className="label text-[11px] text-muted-foreground">
-                      v{product.version}
-                    </span>
-                  </div>
-                  <span className="mt-1 block text-sm font-medium text-foreground">
-                    {pick(product.name, locale)}
+        <ul className="mt-8 divide-y divide-border border border-border bg-surface">
+          {ownedWithDetails.map((product) => (
+            <li key={product.slug} className="flex items-center justify-between p-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="label text-[11px] text-muted-foreground">
+                    {productSku(product.slug)}
+                  </span>
+                  <span className="label text-[11px] text-muted-foreground">
+                    v{product.version}
                   </span>
                 </div>
-                <button
-                  type="button"
-                  disabled
-                  title={t("notConnectedNote")}
-                  className="inline-flex cursor-not-allowed items-center gap-2 border border-border px-4 py-2 text-sm font-semibold text-muted-foreground opacity-60"
+                <span className="mt-1 block text-sm font-medium text-foreground">
+                  {pick(product.name, locale)}
+                </span>
+              </div>
+              {availableSlugs.has(product.slug) ? (
+                <DownloadButton productSlug={product.slug} label={t("downloadButton")} />
+              ) : (
+                <span
+                  className="label border border-border px-2.5 py-1 text-[10px] text-muted-foreground"
+                  title={t("notUploadedYet")}
                 >
-                  <Download className="size-4" />
-                  {t("downloadButton")}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </>
+                  {t("notUploadedYet")}
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );
