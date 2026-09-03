@@ -168,6 +168,12 @@
     "statusPending": "قيد الانتظار",
     "statusRefunded": "مسترجَع"
   },
+  "orderDetail": {
+    "title": "الطلب",
+    "backToOrders": "الرجوع للطلبات",
+    "viewProduct": "شوف صفحة المنتج",
+    "goToDownloads": "روح للتحميلات"
+  },
   "settingsPage": {
     "title": "الإعدادات",
     "subtitle": "إدارة ملفك الشخصي، الفوترة، والحساب.",

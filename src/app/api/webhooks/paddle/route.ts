@@ -2,6 +2,9 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getProducts } from "@/lib/products";
+import { sendOrderConfirmationEmail } from "@/lib/email";
+
+const UNIQUE_VIOLATION = "23505";
 
 /**
  * Paddle Billing webhook — grants product ownership after a *server-verified*
@@ -104,6 +107,9 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (orderError) {
+      // Paddle retries webhook deliveries — a unique-violation here means
+      // this exact transaction was already recorded, not a real failure.
+      if (orderError.code === UNIQUE_VIOLATION) continue;
       console.error(`Failed to record order for ${product.slug}:`, orderError.message);
       continue;
     }
@@ -119,6 +125,18 @@ export async function POST(request: NextRequest) {
 
     if (ownershipError) {
       console.error(`Failed to grant ownership of ${product.slug}:`, ownershipError.message);
+      continue;
+    }
+
+    const { data: authUser } = await admin.auth.admin.getUserById(userId);
+    if (authUser?.user?.email) {
+      await sendOrderConfirmationEmail(admin, {
+        userId,
+        email: authUser.user.email,
+        productName: product.name.en,
+        amount,
+        currency,
+      });
     }
   }
 

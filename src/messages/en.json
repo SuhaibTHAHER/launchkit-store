@@ -168,6 +168,12 @@
     "statusPending": "Pending",
     "statusRefunded": "Refunded"
   },
+  "orderDetail": {
+    "title": "Order",
+    "backToOrders": "Back to orders",
+    "viewProduct": "View product page",
+    "goToDownloads": "Go to Downloads"
+  },
   "settingsPage": {
     "title": "Settings",
     "subtitle": "Manage your profile, billing, and account.",

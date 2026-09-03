@@ -60,16 +60,29 @@ export default async function OrdersPage() {
             </thead>
             <tbody className="divide-y divide-border">
               {orders.map((order) => (
-                <tr key={order.id}>
-                  <td className="px-4 py-3 font-medium text-foreground">{order.product_slug}</td>
-                  <td className="px-4 py-3 text-muted-foreground">
-                    {dateFormatter.format(new Date(order.created_at))}
+                <tr key={order.id} className="hover:bg-muted/40">
+                  <td className="p-0">
+                    <Link href={`/account/orders/${order.id}`} className="block px-4 py-3 font-medium text-foreground">
+                      {order.product_slug}
+                    </Link>
                   </td>
-                  <td className="px-4 py-3 tabular-nums text-muted-foreground">
-                    {order.currency} {order.amount}
+                  <td className="p-0">
+                    <Link href={`/account/orders/${order.id}`} className="block px-4 py-3 text-muted-foreground">
+                      {dateFormatter.format(new Date(order.created_at))}
+                    </Link>
+                  </td>
+                  <td className="p-0">
+                    <Link
+                      href={`/account/orders/${order.id}`}
+                      className="block px-4 py-3 tabular-nums text-muted-foreground"
+                    >
+                      {order.currency} {order.amount}
+                    </Link>
                   </td>
                   <td className="px-4 py-3">
-                    <StatusStamp status={order.status}>{statusLabel(order.status)}</StatusStamp>
+                    <Link href={`/account/orders/${order.id}`}>
+                      <StatusStamp status={order.status}>{statusLabel(order.status)}</StatusStamp>
+                    </Link>
                   </td>
                 </tr>
               ))}

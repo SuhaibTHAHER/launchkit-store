@@ -62,6 +62,24 @@ export async function getOrders(): Promise<Order[]> {
   return data ?? [];
 }
 
+/** A single order, or null if it doesn't exist or belongs to someone else
+ *  (RLS enforces the ownership check — this never trusts the caller). */
+export async function getOrder(id: string): Promise<Order | null> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return null;
+
+  const { data } = await supabase
+    .from("launchkit_orders")
+    .select("id, product_slug, amount, currency, status, created_at")
+    .eq("id", id)
+    .maybeSingle();
+
+  return data ?? null;
+}
+
 export async function getWishlistSlugs(): Promise<Set<string>> {
   const supabase = await createClient();
   const {
